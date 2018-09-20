@@ -3,37 +3,39 @@
 * Goal of the game - beat the dealer by getting a count as close to 21
 
 ## User stores:
-1) User must be able to press start button
-2) User must be able to select to stand button or hit button
-3) User must be able to bet 1, 5, 10, or 20 amount of money - all buttons
-4) User must be able to stay or hit (or split - BONUS)
-5) User must be able to reset the game
+1) User must be able to press start button.
+2) User must be able to select to hold, hit, or double buttons.
+3) User must be able to input dollar amount of money.
+4) User must be able to reset the game (start game button turns into reset once game has rendered).
 
-// Player goes first
+## Gameplay
+* Player gets 2 cards face up
+* Dealer gets 1 card face up and 1 card face down
+* Player gets to input dollar value for bets 
+* If Player cards equal 21 
+    * Dealer flips cards
+        * Play AI Algorithm here
+    * If Dealer also has 21
+        * It's a tie 
+    * If not, Player wins.
+    * Shuffle cards
+* While Player cards is less than 21
+    * Player gets to choose to hold, hit, or double (if matching cards)
+    * Check for cards equal 21
+        * Keep in mind that Ace cards count as 1 or 11
+* If Player cards is greater than 21 
+    * Player busts, Dealer wins
+    * Shuffle cards
 
-// Turn 1 - player
-// Each player gets 2 cards face up
-// Dealer gets 1 card face up and 1 card face down
-// Player gets 1 card face up and 1 card face down
-// Player gets to bet 1, 5, 10, or 20 chips
-// Player card show
-// If not 21 or under 21, draw cards until 17 or under. (check if this is the right one - maybe add probability?)
-    // If over 21, check if ace is considered 1 or 11
-// Players get to choose to stand or hit
-// If stand - push total and change turn
-// If hit add another random card to the array
-// check if the current total is 21
-    // If 21, BUST! dealer wins
-    // If not, prompt user to stay or hit
-    // If stay - push total to array and change turn
-// Dealer turn
-// If total >= 18 stay
-// If total <= 18, hit - check if 21
-// if no bust - compare values
-// If dealer > player - dealer wins
-    // If dealer < player - player wins
-    // If dealer > player - dealer wins
-// Game ends
+### AI Algorithm
+* If total >= 18 stay
+* If total <= 18 hit
+* If total === 21 blackjack
+* If no bust - compare values with player
+* If dealer > player - dealer wins
+* If dealer < player - player wins
+* If dealer === player - it's a tie
+
 
 
 
