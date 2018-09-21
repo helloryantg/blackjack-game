@@ -14,11 +14,12 @@ html, body {
 header {
     display: flex;
     justify-content: space-between;
+    text-align: center
 }
 
 h1 {
     color: #E2B831;
-    font-size: 60px;
+    font-size: 40px;
 }
 
 .nav-buttons {
@@ -27,7 +28,9 @@ h1 {
 
 #restartBtn, #quitBtn {
     border: 6px solid white;
-    border-radius: 8px;   
+    border-radius: 8px;
+    max-height: 75px;
+    max-width: 150px;
 }
 
 
@@ -40,14 +43,26 @@ main {
 
 }
 
+#top-container {
+    display: flex;
+}
+
 #dealer {
+    width: 600px;
+    height: 200px;
+    background-color: rgba(0,0,0,.3);
 }
 
 #announcement {
-    
+    width: 450px;
+    height: 150px;
+    background-color: rgba(0,0,0,.3);
 }
 
 #player {
+    width: 600px;
+    height: 200px;
+    background-color: rgba(0,0,0,.3);
 }
 
 #actionBox {

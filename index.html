@@ -19,10 +19,25 @@
             </div>
         </header>
         <main>
-            <section class="black-opacity" id="dealer"></section>
-            <section class="black-opacity" id="announcement"></section>
-            <section class="black-opacity" id="player"></section>
-            <section id="actionBox"></section>
+            <div id="top-container">
+                <section class="black-opacity" id="dealer">
+                    <p>Dealer</p>
+                    <p>20</p>
+                    <div class="playedCards" id="dealerCards"></div>
+                </section>
+                <section class="black-opacity" id="announcement"></section>
+            </div>
+            
+            <section class="black-opacity" id="player">
+                <p>Player</p>
+                <p>17</p>
+                <div class="playedCards" id="playerCards"></div>
+            </section>
+            <section id="actionBox">
+                <button>Hit</button>
+                <button>Hold</button>
+                <button>Double</button>
+            </section>
         </main>
     </div>
 </body>

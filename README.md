@@ -3,30 +3,38 @@
 * Goal of the game - beat the dealer by getting a count as 21 or as close to 21
 
 ## User stores:
-1) User must be able to press start button.
-2) User must be able to select to hold, hit, or double buttons.
-3) User must be able to input dollar amount of money.
-4) User must be able to reset the game (start game button turns into reset once game has rendered).
-5) User must be able to quit game to go back to pop-up screen.
+* User sees popup page with start button - must be able to press start button.
+* User sees gameboard.
+    * Initial page must have 4 cards on the table facedown
+    * Dealer and Player containers are not selected
+    * Announcement container has string to say press start to begin
+        * RestartBtn has Start and is Green
+    * Hit / Hold / Double buttons de-selected
+    * Balance is set to $1000
+    * Chips are de-selected
+* User must be able to select and press hold, hit, or double buttons
+* User must be able to select amount of money to bet
+* User must be able to reset the game (start game button turns into reset once user presses start).
+* User must be able to quit game to go back to pop-up screen.
 
 ## Gameplay
-* Player gets 2 cards face up
+* Board starts out with no cards
+* Round begins
+* Player gets to choose amount using chips 
+    * Once pressed, subtract from balance
+* If deck > 4 - deal cards
+* Player gets 2 cards face up - check for 21
 * Dealer gets 1 card face up and 1 card face down
-* Player gets to input dollar value for bets 
-* If Player cards equal 21 
-    * Dealer flips cards
-        * Dealer conditions
+    * If ace card is showing - side wager (BONUS)
+* While player cards is less than 21 - if 21, return;
+    * player gets to choose to hold / hit / double
+* Dealer flips cards - check for 21
+    * Dealer conditions
+    * Compare card values
     * If Dealer also has 21
         * It's a tie 
     * If not, Player wins.
-    * Shuffle cards
-* While Player cards is less than 21
-    * Player gets to choose to hold, hit, or double (if matching cards)
-    * Check for cards equal 21
-        * Keep in mind that Ace cards count as 1 or 11
-* If Player cards is greater than 21 
-    * Player busts, Dealer wins
-    * Shuffle cards
+* If deck !== 4 - Shuffle cards
 
 ### Conditions
 * If total >= 18 stay
