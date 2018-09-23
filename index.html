@@ -5,39 +5,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Blackjack Card Game</title>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="card-deck-css/css/cardstarter.css">
     <script src="js/main.js" defer></script>
 </head>
 <body>
     <div id="board">
         <header>
-            <h1>BLACKJACK</h1>
-            <div class="nav-buttons"></div>
-                <button class="button" id="restartBtn">RESTART</button>
-                <button class="button" id="quitBtn">X QUIT GAME</button>
+            <div id="title">
+                <img src="./images/logo.svg">
+            </div>
+            <div class="nav-buttons">
+                <button class="button" id="restartBtn"><h3>RESTART</h3></button>
+                <button class="button" id="quitBtn"><h3>X QUIT GAME</h3></button>
             </div>
         </header>
+        
         <main>
             <div id="top-container">
-                <section class="black-opacity" id="dealer">
-                    <p>Dealer</p>
-                    <p>20</p>
-                    <div class="playedCards" id="dealerCards"></div>
+                <section class="black-opacity main-containers">
+                    <div>
+                        <h4>DEALER</h4>
+                    </div>
+                    <div>
+                        <h2 id="dealerScore">20</h2>
+                    </div>
+                    <div>
+                        <img class="card large" src="./card-deck-css/images/backs/red.svg" alt="">
+                        <img class="card large" src="./card-deck-css/images/backs/red.svg" alt="">
+                    </div>
                 </section>
-                <section class="black-opacity" id="announcement"></section>
+                <section class="black-opacity" id="announcement">
+                    <div class="announcement-container">
+                        <h4 id="announcementText">Player holds, Dealer Wins!</h4>
+                        <h3 id="moneyLost">You lose $25!</h3>
+                    </div>
+                </section>
+            </div>
+            <div id="bot-container">
+                <section class="black-opacity main-containers">
+                    <div>
+                        <h4>PLAYER</h4>
+                    </div>
+                    <div>
+                        <h2 id="playerScore">17</h2>
+                    </div>
+                    <div>
+                        <img class="card large" src="./card-deck-css/images/backs/red.svg" alt="">
+                        <img class="card large" src="./card-deck-css/images/backs/red.svg" alt="">
+                    </div>
+                </section>
+                <section id="actionBox">
+                    <div class="action-btn-container">
+                        <button class="action-btn" >HIT</button>
+                        <button class="action-btn">HOLD</button>
+                        <button class="action-btn">DOUBLE</button>
+                    </div>
+                    <div class="bet-container">
+                        <div class="bets">
+                            <h5>BETS</h5>
+                            <div class="chip-container">
+                                <h3 class="chip">10</h3>
+                                <h3 class="chip">25</h3>
+                                <h3 class="chip">50</h3>
+                            </div>
+                        </div>
+                        <div class="balance">
+                            <div class="balance-container">
+                                <h5>BALANCE</h5>
+                                <h2 id="balanceAmount">$300</h2>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
             
-            <section class="black-opacity" id="player">
-                <p>Player</p>
-                <p>17</p>
-                <div class="playedCards" id="playerCards"></div>
-            </section>
-            <section id="actionBox">
-                <button>Hit</button>
-                <button>Hold</button>
-                <button>Double</button>
-            </section>
         </main>
     </div>
 </body>

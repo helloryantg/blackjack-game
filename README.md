@@ -49,7 +49,7 @@
 #### Technologies
 * HTML 
 * CSS
-* jQuery
+
 
 #### Game
 * Array of card objects for main deck
