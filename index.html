@@ -11,6 +11,14 @@
     <script src="js/main.js" defer></script>
 </head>
 <body>
+    <div id="modal-container">
+        <div id="modal-content">
+            <img id="modal-logo" src="./images/modal-logo.png" alt="modal-logo">
+            <div id="start-btn">
+                <h3 id="start-btn-txt">START GAME</h3>     
+            </div>
+        </div>
+    </div>
     <div id="board">
         <header>
             <div id="title">
@@ -31,14 +39,14 @@
                     <div>
                         <h2 id="dealerScore">20</h2>
                     </div>
-                    <div>
-                        <img class="card large" src="./card-deck-css/images/backs/red.svg" alt="">
-                        <img class="card large" src="./card-deck-css/images/backs/red.svg" alt="">
+                    <div class="cards-container">
+                        <img class="card large" src="./card-deck-css/images/backs/red.svg">
+                        <img class="card large" src="./card-deck-css/images/backs/red.svg">
                     </div>
                 </section>
                 <section class="black-opacity" id="announcement">
                     <div class="announcement-container">
-                        <h4 id="announcementText">Player holds, Dealer Wins!</h4>
+                        <h4 id="announcementText">Dealing Cards</h4>
                         <h3 id="moneyLost">You lose $25!</h3>
                     </div>
                 </section>
@@ -51,9 +59,9 @@
                     <div>
                         <h2 id="playerScore">17</h2>
                     </div>
-                    <div>
-                        <img class="card large" src="./card-deck-css/images/backs/red.svg" alt="">
-                        <img class="card large" src="./card-deck-css/images/backs/red.svg" alt="">
+                    <div class="cards-container">
+                        <img class="card large" src="./card-deck-css/images/backs/red.svg">
+                        <img class="card large" src="./card-deck-css/images/backs/red.svg">
                     </div>
                 </section>
                 <section id="actionBox">
@@ -74,7 +82,7 @@
                         <div class="balance">
                             <div class="balance-container">
                                 <h5>BALANCE</h5>
-                                <h2 id="balanceAmount">$300</h2>
+                                <h2 id="balanceAmount">$1000</h2>
                             </div>
                         </div>
                     </div>

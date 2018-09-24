@@ -4,8 +4,47 @@ body {
     color: white;
     height: 100vh;
     font-family: 'Open Sans', sans-serif;
+    box-sizing: border-box;
 }
 
+/* Modal CSS */
+#modal-container {
+    visibility: hidden;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    background-color: rgba(0, 0, 0, .7);
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+#modal-content {
+    position: fixed;
+    top: 40%;
+}
+
+#modal-logo {
+    width: 600px;
+    height: 100px;
+}
+
+#start-btn {
+    background-color: #27612C;
+    width: 250px;
+    height: 65px;
+    margin: auto;
+    padding: 0;
+    border: 6px solid #E2B831;
+    border-radius: 8px;
+}
+
+#start-btn-txt {
+    color: #E2B831;
+    font-size: 30px;
+    margin: 10px 0 0 0;
+}
 
 #board {
     font-family: 'Open Sans', sans-serif;
@@ -131,9 +170,16 @@ h5 {
     top: 64px;
 }
 
+.cards-container {
+    position: relative;
+    right: -60px;
+}
+
 #announcementText {
-    width: 90%;
+    width: 100%;
     font-size: 26px;
+    padding-bottom: 10px;
+    text-align: center;
 }
 
 #balanceAmount {

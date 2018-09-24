@@ -37,14 +37,20 @@ const DECK = [
 
 
 
-/*----- app's state (variables) -----*/
 
+/*----- app's state (variables) -----*/
+var modalStart;
+var modalContainer;
 
 /*----- cached element references -----*/
-
+modalStart = document.getElementById('start-btn');
+modalContainer = document.getElementById('modal-container');
 
 /*----- event listeners -----*/
-
+modalStart.addEventListener('click', function(event) {
+    modalContainer.style.display = "none";
+});
+// Make sure to change modalContainer.style.display to normal when a user quits game.
 
 /*----- functions -----*/
 
