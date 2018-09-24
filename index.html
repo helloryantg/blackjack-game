@@ -37,16 +37,21 @@
                         <h4>DEALER</h4>
                     </div>
                     <div>
-                        <h2 id="dealerScore">20</h2>
+                        <h2 id="dealerTotal"></h2>
                     </div>
-                    <div class="cards-container">
-                        <img class="card large" src="./card-deck-css/images/backs/red.svg">
-                        <img class="card large" src="./card-deck-css/images/backs/red.svg">
+                    <div class="dealer cards-container">
+                        <img class="card large first-card" src="./card-deck-css/images/backs/red.svg">
+                        <img class="card large second-card" src="./card-deck-css/images/backs/red.svg">
+                        <img class="card large third-card" src="./card-deck-css/images/backs/red.svg">
+                        <img class="card large fourth-card" src="./card-deck-css/images/backs/red.svg">
+                        <img class="card large fifth-card" src="./card-deck-css/images/backs/red.svg">
+                        <img class="card large sixth-card" src="./card-deck-css/images/backs/red.svg">
+                        <img class="card large seventh-card" src="./card-deck-css/images/backs/red.svg">
                     </div>
                 </section>
                 <section class="black-opacity" id="announcement">
                     <div class="announcement-container">
-                        <h4 id="announcementText">Dealing Cards</h4>
+                        <h4 id="announcementText"> </h4>
                         <h3 id="moneyLost">You lose $25!</h3>
                     </div>
                 </section>
@@ -57,11 +62,16 @@
                         <h4>PLAYER</h4>
                     </div>
                     <div>
-                        <h2 id="playerScore">17</h2>
+                        <h2 id="playerTotal"></h2>
                     </div>
-                    <div class="cards-container">
-                        <img class="card large" src="./card-deck-css/images/backs/red.svg">
-                        <img class="card large" src="./card-deck-css/images/backs/red.svg">
+                    <div class="player cards-container">
+                        <img class="card large first-card" src="./card-deck-css/images/backs/red.svg">
+                        <img class="card large second-card" src="./card-deck-css/images/backs/red.svg">
+                        <img class="card large third-card" src="./card-deck-css/images/backs/red.svg">
+                        <img class="card large fourth-card" src="./card-deck-css/images/backs/red.svg">
+                        <img class="card large fifth-card" src="./card-deck-css/images/backs/red.svg">
+                        <img class="card large sixth-card" src="./card-deck-css/images/backs/red.svg">
+                        <img class="card large seventh-card" src="./card-deck-css/images/backs/red.svg">
                     </div>
                 </section>
                 <section id="actionBox">
@@ -74,15 +84,15 @@
                         <div class="bets">
                             <h5>BETS</h5>
                             <div class="chip-container">
-                                <h3 class="chip">10</h3>
-                                <h3 class="chip">25</h3>
-                                <h3 class="chip">50</h3>
+                                <h3 class="chip red">10</h3>
+                                <h3 class="chip green">25</h3>
+                                <h3 class="chip yellow">50</h3>
                             </div>
                         </div>
                         <div class="balance">
                             <div class="balance-container">
                                 <h5>BALANCE</h5>
-                                <h2 id="balanceAmount">$1000</h2>
+                                <h2 id="balanceAmount">$<span id="currentBalance"></span></h2>
                             </div>
                         </div>
                     </div>

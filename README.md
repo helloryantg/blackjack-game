@@ -5,22 +5,21 @@
 ## User stores:
 * User sees popup page with start button - must be able to press start button.
 * User sees gameboard.
-    * Initial page must have 4 cards on the table facedown
-    * Dealer and Player containers are not selected
-    * Announcement container has string to say press start to begin
-        * RestartBtn has Start and is Green
-    * Hit / Hold / Double buttons de-selected
-    * Balance is set to $1000
-    * Chips are de-selected
+    * Initial page must have 4 cards on the table facedown  X
+    * Dealer and Player containers are not selected X
+    * Announcement container defaults to "Game Starting... Dealing Cards"   X
+    * Hit / Hold / Double buttons de-selected   
+    * Balance is set to $1000   X
+    * Chips are de-selected 
 * User must be able to select and press hold, hit, or double buttons
-* User must be able to select amount of money to bet
-* User must be able to reset the game (start game button turns into reset once user presses start).
-* User must be able to quit game to go back to pop-up screen.
+* User must be able to select amount of chip to bet
+* User must be able to reset the game without quitting. X
+* User must be able to quit game to go back to pop-up screen.   X
 
 ## Gameplay
 * Board starts out with no cards
 * Round begins
-* Player gets to choose amount using chips 
+* Player gets to choose amount using chips - state = bets
     * Once pressed, subtract from balance
 * If deck > 4 - deal cards
 * Player gets 2 cards face up - check for 21

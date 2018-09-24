@@ -9,7 +9,7 @@ body {
 
 /* Modal CSS */
 #modal-container {
-    visibility: hidden;
+    /* visibility: hidden; */
     height: 100%;
     width: 100%;
     position: fixed;
@@ -90,15 +90,23 @@ main {
     width: 60%;
     height: 200px;
     margin: 20px 20px 20px 0;
+    padding: 10px 20px;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 }
+
+/* .main-containers:hover {
+    color: #E2B831;
+    border: 2px solid #E2B831;
+    
+} */
 
 #announcement, #actionBox {
     width: 40%;
     height: 200px;
     margin: 20px 0;
+    padding: 10px 0;
 }
 
 .black-opacity {
@@ -129,6 +137,10 @@ h5 {
 
 }
 
+#dealerTotal, #playerTotal {
+    margin-left: 60px;
+}
+
 .action-btn {
     width: 140px;
     height: 60px;
@@ -137,6 +149,11 @@ h5 {
     color: white;
     font-size: 24px;
     font-weight: 700;
+}
+
+.action-btn:hover {
+    color: #E2B831;
+    border: 6px solid #E2B831;
 }
 
 .action-btn-container {
@@ -171,8 +188,41 @@ h5 {
 }
 
 .cards-container {
+    padding-left: 40px;
+    display: flex;
+}
+
+.card {
     position: relative;
-    right: -60px;
+}
+
+.second-card {
+    left: -45px;
+}
+
+.third-card {
+    left: -90px;
+    visibility: hidden;
+}
+
+.fourth-card {
+    left: -135px;
+    visibility: hidden;
+}
+
+.fifth-card {
+    left: -180px;
+    visibility: hidden;
+}
+
+.sixth-card {
+    left: -225px;
+    visibility: hidden;
+}
+
+.seventh-card {
+    left: -270px;
+    visibility: hidden;
 }
 
 #announcementText {
@@ -195,4 +245,22 @@ h5 {
     border-radius: 14px;
     text-align: center;
     margin: 0 auto;
+}
+
+.red {
+    border: 5px dashed red;
+}
+
+.chip:hover {
+    color: #E2B831;
+    font-size: 20px;
+}
+
+.green {
+    border: 5px dashed green;
+}
+
+
+.yellow {
+    border: 5px dashed yellow;
 }

@@ -17,6 +17,13 @@ const DECK = [
     {d02: 2}, {h02: 2}, {s02: 2}, {c02: 2}
 ];
 
+const STARTING_BALANCE = 1000;
+
+const CHIPS = {
+    red: 10,
+    green: 25,
+    yellow: 50
+}
 
 // class Deck {
 //     constructor() {
@@ -41,17 +48,71 @@ const DECK = [
 /*----- app's state (variables) -----*/
 var modalStart;
 var modalContainer;
+var announcementTxt;
+var currentBalance;
+var restart;
+var quitBtn;
+var dealerTotal;
+var playerTotal;
+var state;
+var chipContainer;
+var moneyLost;
+
+var gameStart;
 
 /*----- cached element references -----*/
 modalStart = document.getElementById('start-btn');
 modalContainer = document.getElementById('modal-container');
+announcementTxt = document.getElementById('announcementText');
+currentBalance = document.getElementById('currentBalance');
+restart = document.getElementById('restartBtn');
+quitBtn = document.getElementById('quitBtn');
+dealerTotal = document.getElementById('dealerTotal');
+playerTotal = document.getElementById('playerTotal');
+chipContainer = document.querySelector('.chip-container');
+moneyLost = document.getElementById('moneyLost');
 
 /*----- event listeners -----*/
 modalStart.addEventListener('click', function(event) {
     modalContainer.style.display = "none";
+    flipCards();
 });
+
+restart.addEventListener('click', function() {
+    initGame();
+});
+
+quitBtn.addEventListener('click', function() {
+    location.reload();
+});
+
+chipContainer.addEventListener('click', function() {
+
+})
 // Make sure to change modalContainer.style.display to normal when a user quits game.
 
 /*----- functions -----*/
+function flipCards() {
+    if (state = 'dealer') {
 
+    } else {
 
+    }
+}
+
+// switch (state) {
+//     case gameStart:
+
+// }
+
+function initGame() {
+    state = gameStart;
+    playerTurn = 'dealer';
+    announcementTxt.textContent = 'Game Start... Place your bets!';
+    currentBalance.textContent = STARTING_BALANCE;
+    dealerTotal.textContent = 0;
+    playerTotal.textContent = 0;
+    moneyLost.textContent = 'Good luck!';
+}
+
+initGame();
