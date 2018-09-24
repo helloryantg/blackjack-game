@@ -1,21 +1,64 @@
-
+const values = [2, , 11]
+const ranks = ['02', 'A']
+const suits = ['d', 'h', 's', 'c'];
 
 /*----- constants -----*/
-const DECK = [
-    {dA: [1, 11]}, {hA: [1, 11]}, {sA: [1, 11]}, {cA: [1, 11]},
-    {dK: 10},{hK: 10}, {sK: 10}, {cK: 10},
-    {dQ: 10}, {hQ: 10}, {sQ: 10}, {cQ: 10},
-    {dJ: 10}, {hJ: 10}, {sJ: 10}, {cJ: 10},
-    {d10: 10}, {h10: 10}, {s10: 10}, {c10: 10},
-    {d09: 9}, {h09: 9}, {s09: 9}, {c09: 9}, 
-    {d08: 8}, {h08: 8}, {s08: 8}, {c08: 8}, 
-    {d07: 7}, {h07: 7}, {s07: 7}, {c07: 7},
-    {d06: 6}, {h06: 6}, {s06: 6}, {c06: 6},
-    {d05: 5}, {h05: 5}, {s05: 5}, {c05: 5},
-    {d04: 4}, {h04: 4}, {s04: 4}, {c04: 4},
-    {d03: 3}, {h03: 3}, {s03: 3}, {c03: 3},
-    {d02: 2}, {h02: 2}, {s02: 2}, {c02: 2}
-];
+const DECK = buildDeck();
+
+// const DECK = [
+//     {card: 'dA', value: [1, 11]},
+//     {card: 'hA', value: [1, 11]},
+//     {card: 'sA', value: [1, 11]}, 
+//     {card: 'cA', value: [1, 11]}, 
+//     {card: 'dK', value: 10}, 
+//     {card: 'hK', value: 10},
+//     {card: 'sK', value: 10},
+//     {card: 'cK', value: 10},
+//     {card: 'dQ', value: 10},
+//     {card: 'hQ', value: 10},
+//     {card: 'sQ', value: 10},
+//     {card: 'cQ', value: 10},
+//     {card: 'dJ', value: 10},
+//     {card: 'hJ', value: 10},
+//     {card: 'sJ', value: 10,},
+//     {card: 'cJ', value: 10,},
+//     {card: 'd10', value: 10},
+//     {card: 'h10', value: 10},
+//     {card: 's10', value: 10},
+//     {card: 'c10', value: 10},
+//     {card: 'd09', value: 9},
+//     {card: 'h09', value: 9},
+//     {card: 's09', value: 9},
+//     {card: 'c09', value: 9},
+//     {card: 'd08', value: 8},
+//     {card: 'h08', value: 8},
+//     {card: 's08', value: 8},
+//     {card: 'c08', value: 8},
+//     {card: 'd07', value: 7},
+//     {card: 'h07', value: 7},
+//     {card: 's07', value: 7},
+//     {card: 'c07', value: 7},
+//     {card: 'd06', value: 6},
+//     {card: 'h06', value: 6},
+//     {card: 's06', value: 6},
+//     {card: 'c06', value: 6},
+//     {card: 'd05', value: 5},
+//     {card: 'h05', value: 5},
+//     {card: 's05', value: 5},
+//     {card: 'c05', value: 5},
+//     {card: 'd04', value: 4},
+//     {card: 'h04', value: 4},
+//     {card: 's04', value: 4},
+//     {card: 'c04', value: 4},
+//     {card: 'd03', value: 3},
+//     {card: 'h03', value: 3},
+//     {card: 's03', value: 3},
+//     {card: 'c03', value: 3},
+//     {card: 'd02', value: 2},
+//     {card: 'h02', value: 2},
+//     {card: 's02', value: 2},
+//     {card: 'c02', value: 2},
+// ];
 
 const STARTING_BALANCE = 1000;
 
@@ -25,7 +68,7 @@ const CHIPS = {
     yellow: 50
 }
 
-// class Deck {
+// Class Deck {
 //     constructor() {
 //         this.deck = [];
 //         const suits = ['d', 'h', 's', 'c'];
@@ -43,13 +86,13 @@ const CHIPS = {
 // var deck1 = new Deck();
 
 
-
-
 /*----- app's state (variables) -----*/
 var state;
-
 var playerBet;
 var balance;
+var shuffledDeck;
+var dealerCurrentTotal;
+var playerCurrentTotal;
 
 /*----- cached element references -----*/
 
@@ -73,6 +116,12 @@ var playerTotal = document.getElementById('playerTotal');
 // Elements for chips
 var chipContainer = document.querySelector('.chip-container');
 
+// Elements for dealer cards
+var dealerCard1 = document.querySelector('.dealer .first-card');
+var dealerCard2 = document.querySelector('.dealer .second-card');
+
+var playerCard1 = document.querySelector('.player .first-card');
+var playerCard2 = document.querySelector('.player .second-card');
 
 /*----- event listeners -----*/
 modalStart.addEventListener('click', function(event) {
@@ -91,14 +140,32 @@ quitBtn.addEventListener('click', function() {
 chipContainer.addEventListener('click', placeBets);
 
 /*----- functions -----*/
-function flipCards() {
-    if (state = 'dealer') {
+function setCards() {
+    var firstCard = shuffledDeck.pop();
+    dealerCard1.classList.remove('back-red');
+    dealerCard1.classList.add(`${firstCard.card}`);
+    dealerCurrentTotal = firstCard.value;
+    dealerTotal.textContent = dealerCurrentTotal;
+    
+    var secondCard = shuffledDeck.pop();
+    playerCard1.classList.remove('back-red');
+    playerCard1.classList.add(`${secondCard.card}`);
+    playerCurrentTotal = secondCard.value;
+    playerTotal.textContent = playerCurrentTotal;
 
-    } else {
+    var thirdCard = shuffledDeck.pop();
+    dealerCard2.classList.remove('back-red');
+    dealerCard2.classList.add(`${thirdCard.card}`);
+    dealerCurrentTotal = thirdCard.value;
+    dealerTotal.textContent = dealerCurrentTotal;
 
-    }
-
+    
+    // pop array object from array and make it appear as first dealer card
+    // pop from array and make it appear as first player card
+    // pop from array and set it as 2nd dealer card
+    // pop from arra and make it appear as second player card
 }
+
 
 function checkChipValue(playerBet) {
     if (playerBet === 'red') {
@@ -118,10 +185,10 @@ function placeBets(e) {
     }
     render();
     state = 'dealCards';
+    render();
 }
 
 function render() {
-    
     switch (state) {
         case 'gameStart':
             console.log('Game Starting');
@@ -138,16 +205,28 @@ function render() {
             moneyLost.textContent = `$${CHIPS[playerBet]}`;
             break;
         case 'dealCards':
+            console.log('now dealing');
+            setCards();
             
-            announcementTxt = ''
             break;
     }
+}
+
+function shuffleCards(arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+        var rand = Math.floor(Math.random() * (i + 1));
+        var newArr = arr[i];
+        arr[i] = arr[rand];
+        arr[rand] = newArr;
+    }
+    return arr;
 }
 
 function initGame() {
     state = 'gameStart';
     playerTurn = 'dealer';
     balance = STARTING_BALANCE;
+    shuffledDeck = shuffleCards(DECK);
     render();
 }
 
