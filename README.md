@@ -17,10 +17,10 @@
 * User must be able to quit game to go back to pop-up screen.   X
 
 ## Gameplay
-* Board starts out with no cards
-* Round begins
-* Player gets to choose amount using chips - state = bets
-    * Once pressed, subtract from balance
+* Board starts out with no cards    X
+* Round begins  X
+* Player gets to choose amount using chips - state = bets   X
+    * Once pressed, subtract from balance   X
 * If deck > 4 - deal cards
 * Player gets 2 cards face up - check for 21
 * Dealer gets 1 card face up and 1 card face down

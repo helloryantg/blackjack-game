@@ -46,36 +46,38 @@ const CHIPS = {
 
 
 /*----- app's state (variables) -----*/
-var modalStart;
-var modalContainer;
-var announcementTxt;
-var currentBalance;
-var restart;
-var quitBtn;
-var dealerTotal;
-var playerTotal;
 var state;
-var chipContainer;
-var moneyLost;
 
-var gameStart;
+var playerBet;
+var balance;
 
 /*----- cached element references -----*/
-modalStart = document.getElementById('start-btn');
-modalContainer = document.getElementById('modal-container');
-announcementTxt = document.getElementById('announcementText');
-currentBalance = document.getElementById('currentBalance');
-restart = document.getElementById('restartBtn');
-quitBtn = document.getElementById('quitBtn');
-dealerTotal = document.getElementById('dealerTotal');
-playerTotal = document.getElementById('playerTotal');
-chipContainer = document.querySelector('.chip-container');
-moneyLost = document.getElementById('moneyLost');
+
+// Elements for modal container
+var modalStart = document.getElementById('start-btn');
+var modalContainer = document.getElementById('modal-container');
+
+// Elements for texts and announcements
+var announcementTxt = document.getElementById('announcementText');
+var currentBalance = document.getElementById('currentBalance');
+var moneyLost = document.getElementById('moneyLost');
+
+// Elements for buttons
+var restart = document.getElementById('restartBtn');
+var quitBtn = document.getElementById('quitBtn');
+
+// Elements for card totals
+var dealerTotal = document.getElementById('dealerTotal');
+var playerTotal = document.getElementById('playerTotal');
+
+// Elements for chips
+var chipContainer = document.querySelector('.chip-container');
+
 
 /*----- event listeners -----*/
 modalStart.addEventListener('click', function(event) {
     modalContainer.style.display = "none";
-    flipCards();
+    state = 'betting';
 });
 
 restart.addEventListener('click', function() {
@@ -86,10 +88,7 @@ quitBtn.addEventListener('click', function() {
     location.reload();
 });
 
-chipContainer.addEventListener('click', function() {
-
-})
-// Make sure to change modalContainer.style.display to normal when a user quits game.
+chipContainer.addEventListener('click', placeBets);
 
 /*----- functions -----*/
 function flipCards() {
@@ -98,21 +97,58 @@ function flipCards() {
     } else {
 
     }
+
 }
 
-// switch (state) {
-//     case gameStart:
+function checkChipValue(playerBet) {
+    if (playerBet === 'red') {
+        balance -= CHIPS.red;
+    } else if (playerBet === 'green') {
+        balance -= CHIPS.green;
+    } else {
+        balance -=CHIPS.yellow;
+    }
+}
 
-// }
+function placeBets(e) {
+    if (state !== 'betting') return;
+    if (e.target !== chipContainer) {
+        playerBet = e.target.id;
+        checkChipValue(playerBet);
+    }
+    render();
+    state = 'dealCards';
+}
+
+function render() {
+    
+    switch (state) {
+        case 'gameStart':
+            console.log('Game Starting');
+            currentBalance.textContent = balance;
+            dealerTotal.textContent = 0;
+            playerTotal.textContent = 0;
+            announcementTxt.textContent = 'Game Start... Place your bets!';
+            moneyLost.textContent = 'Good luck!';
+            // state = 'betting';
+            break;
+        case 'betting':
+            currentBalance.textContent = balance;
+            announcementTxt.textContent = 'You bet';
+            moneyLost.textContent = `$${CHIPS[playerBet]}`;
+            break;
+        case 'dealCards':
+            
+            announcementTxt = ''
+            break;
+    }
+}
 
 function initGame() {
-    state = gameStart;
+    state = 'gameStart';
     playerTurn = 'dealer';
-    announcementTxt.textContent = 'Game Start... Place your bets!';
-    currentBalance.textContent = STARTING_BALANCE;
-    dealerTotal.textContent = 0;
-    playerTotal.textContent = 0;
-    moneyLost.textContent = 'Good luck!';
+    balance = STARTING_BALANCE;
+    render();
 }
 
 initGame();
