@@ -1,9 +1,5 @@
-const values = [2, , 11]
-const ranks = ['02', 'A']
-const suits = ['d', 'h', 's', 'c'];
-
 /*----- constants -----*/
-const DECK = buildDeck();
+
 
 // const DECK = [
 //     {card: 'dA', value: [1, 11]},
@@ -67,26 +63,12 @@ const CHIPS = {
     green: 25,
     yellow: 50
 }
-
-// Class Deck {
-//     constructor() {
-//         this.deck = [];
-//         const suits = ['d', 'h', 's', 'c'];
-//         const values = ['a', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'j', 'q', 'k']
-
-//         for (let suit in suits) {
-//             for (let value in values) {
-//                 this.deck.push(`${values[value]}${suits[suit]}`);
-//             }
-//         }
-        
-//     }
-// }
-// // This gives me an array of 52 cards in strings
-// var deck1 = new Deck();
-
-
 /*----- app's state (variables) -----*/
+
+var ranks;
+var suits;
+var values;
+var deck;
 var state;
 var playerBet;
 var balance;
@@ -222,11 +204,25 @@ function shuffleCards(arr) {
     return arr;
 }
 
+function buildDeck() {
+    var results = [];
+    for (let suit in suits) {
+        for (let rank in ranks) {
+            results.push(`${suits[suit]}${ranks[rank]}`);
+        }
+    }
+    return results;
+}
+
 function initGame() {
+    ranks = ['02', '03', '04', '05', '06', '07', '08', '09', '10', 'J', 'Q', 'K', 'A'];
+    suits = ['d', 'h', 's', 'c'];
+    values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11];
+    deck = buildDeck();
     state = 'gameStart';
     playerTurn = 'dealer';
     balance = STARTING_BALANCE;
-    shuffledDeck = shuffleCards(DECK);
+    shuffledDeck = shuffleCards(deck);
     render();
 }
 
