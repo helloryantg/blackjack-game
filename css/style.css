@@ -192,39 +192,6 @@ h5 {
     display: flex;
 }
 
-.card {
-    position: relative;
-}
-
-.second-card {
-    left: -45px;
-}
-
-.third-card {
-    left: -90px;
-    visibility: hidden;
-}
-
-.fourth-card {
-    left: -135px;
-    visibility: hidden;
-}
-
-.fifth-card {
-    left: -180px;
-    visibility: hidden;
-}
-
-.sixth-card {
-    left: -225px;
-    visibility: hidden;
-}
-
-.seventh-card {
-    left: -270px;
-    visibility: hidden;
-}
-
 #announcementText {
     width: 100%;
     font-size: 26px;

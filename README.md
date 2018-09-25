@@ -22,8 +22,10 @@
 * Player gets to choose amount using chips - state = bets   X
     * Once pressed, subtract from balance   X
 * If deck > 4 - deal cards
-* Player gets 2 cards face up - check for 21
+* Player gets 2 cards face up - check for 21 
+    * Add 2 cards to the array - subtract from deck
 * Dealer gets 1 card face up and 1 card face down
+    * Add 2 cards to dealer array - subtract from deck
     * If ace card is showing - side wager (BONUS)
 * While player cards is less than 21 - if 21, return;
     * player gets to choose to hold / hit / double
@@ -64,3 +66,7 @@
 * Z-index for stacking
 
 ##### Variables
+
+## Pseudocode
+* Initialize board
+    * 
