@@ -28,8 +28,17 @@ var bust; // true if player goes over 21
 // Modal container
 var modalContainer = document.getElementById('modal-container');
 
+var dealerTotal = document.getElementById('dealerTotal');
+var playerTotal = document.getElementById('playerTotal');
+
+// Action buttons
 var dealBtn = document.getElementById('deal-btn');
 var hitBtn = document.getElementById('hit-btn');
+var standBtn = document.getElementById('stand-btn');
+
+// Cards containers
+var dealerCards = document.getElementById('dealerCards');
+var playerCards = document.getElementById('playerCards');
 
 var chipsContainer = document.querySelector('.chip-container')
 /*----- event listeners -----*/
@@ -52,6 +61,7 @@ dealBtn.addEventListener('click', dealCards);
 hitBtn.addEventListener('click', hitMe);
 
 /*----- functions -----*/
+
 function hitMe() {
     // code for when user wants to hit
 }
@@ -72,21 +82,26 @@ function dealCards() {
     // code to deal cards 
     for (var i = 0; i < 2; i++) {
         var card = drawCard();
-        playerArray.push(card);
+        playerArray.push(card.display);
+        playerSum += card.value;
+        renderGame();
     }
     console.log(playerArray);
-    console.log(deck);
+    console.log(playerSum);
 
     for (var i = 0; i < 2; i++) {
         var card = drawCard();
         dealerArray.push(card);
+        dealerSum += card.value;
+        renderGame();
     }
     console.log(dealerArray);
-    console.log(deck);
+    
 
     dealing = false;
     // Dealing stage now over
     // Choice to hit or stand
+    /////////////////////////////////////////////////////////////
     hitting = true;
     standing = true;
     renderGame();
@@ -141,6 +156,13 @@ function buildDeck() {
 function renderGame() {
     // This gets called a lot 
     currentBalance.textContent = balance;
+
+    dealerTotal.textContent = dealerSum;
+    playerTotal.textContent = playerSum;
+
+    // create divs with classname specific to the amount of cards dealt
+    dealerCards.
+
 
     if (betting) {
         console.log('User has entered the betting stage');
