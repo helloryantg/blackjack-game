@@ -12,10 +12,6 @@ const OUTCOMES = {
 };
 
 /*----- app's state (variables) -----*/
-var betting; // betting
-var dealing; // dealing stage
-var hitting; // hitting stage
-var decision;
 var balance; // balance left
 var deck;
 var currentBet; // chip value chosen
@@ -24,7 +20,6 @@ var playerArray;
 var dealerSum; // sums
 var playerSum;  
 var result;
-var bust;
 
 // Not yet implemented
 var aces; // true if there is an Ace present
@@ -33,6 +28,7 @@ var aces; // true if there is an Ace present
 var modalContainer = document.getElementById('modal-container'); 
 var dealerTotal = document.getElementById('dealerTotal');  
 var playerTotal = document.getElementById('playerTotal');
+var actionBtnCntr = document.querySelector('.action-btn-container');
 var dealBtn = document.getElementById('deal-btn'); 
 var hitBtn = document.getElementById('hit-btn');
 var holdBtn = document.getElementById('hold-btn');
@@ -52,30 +48,41 @@ dealBtn.addEventListener('click', dealCards);
 hitBtn.addEventListener('click', hitMe);
 holdBtn.addEventListener('click', hold);
 
+
+
+// fix deal button
+
+
+
+
+
 /*----- functions -----*/
-function generateDealerCard() {
-        var newCard = document.createElement('div');
-        newCard.className = 'card large back-red';
-        dealerCards.appendChild(newCard);
-}
-
-function generatePlayerCard() {
-    var newCard = document.createElement('div');
-    newCard.className = 'card large back-red';
-    playerCards.appendChild(newCard);
-}
-
 function hold() {
     // code to stand
 }
 
+function computeHand() {
+    // do compute hand function here
+}
+
+function generateDealerCard(cardFace) {
+        var newCard = document.createElement('div');
+        newCard.className = 'card large back-red';
+        newCard.className = cardFace;
+        console.log(cardFace);
+        dealerCards.appendChild(newCard);
+}
+
+function generatePlayerCard(cardFace) {
+    var newCard = document.createElement('div');
+    newCard.className = 'card large back-red';
+    newCard.className = cardFace;
+    playerCards.appendChild(newCard);
+}
+
 function hitMe() {
-    var card = drawCard();
-    playerArray.push(card.display);
-    playerSum += card.value;
-    generatePlayerCard();
-    checkWinner();
-    checkBust();
+    drawCard(playerArray);
+    if (computeHand(playerArray) > 21) result = 'd';
     renderGame();
 }
 
@@ -87,20 +94,6 @@ function checkTie() {
     }
 }
 
-function checkBust() {
-    if (playerSum > 21) {
-        // result
-        result = true;
-        decision = false;
-    }
-    if (dealerSum > 21) {
-        // result
-        result = true;
-        decision = false;
-    }
-    renderGame();
-}
-
 function checkWinner() {
     if (playerSum === 21 && dealerSum !== 21) {
         // result
@@ -110,39 +103,25 @@ function checkWinner() {
         // result
         result === true;
     }
+    result = false;
     decision = false;
+
     renderGame();
 }
 
-function drawCard() {
-    // code to draw card
-    var drewCard = deck.pop();
-    return drewCard;
+function drawCard(hand) {
+    hand.push(deck.pop());
 }
 
 function dealCards() {
-    if (dealing) {
-        for (var i = 0; i < 2; i++) {
-            var card = drawCard();
-            playerArray.push(card.display);
-            playerSum += card.value;
-            generatePlayerCard();
-            renderGame();
-        }
-        for (var i = 0; i < 2; i++) {
-            var card = drawCard();
-            dealerArray.push(card);
-            dealerSum += card.value;
-            generateDealerCard();
-            renderGame();
-        }
-        
-        dealing = false;
-        checkWinner();
-        checkBust();
-        decision = true;
-        renderGame();
-    }
+    drawCard(dealerArray);
+    drawCard(dealerArray);
+    drawCard(playerArray);
+    drawCard(playerArray);
+    // check for blackjack and set result if there is to 'pbj' or 'dbj'
+    if (computeHand(dealerArray)) result = 'dbj';
+    if (computeHand(dealerArray)) result = 'dbj';
+    renderGame();
 }
 
 function shuffleDeck() {
@@ -159,16 +138,11 @@ function shuffleDeck() {
 function placeBet(event) {
     console.log(`User has bet ${event.target.textContent}`);
     // if (event.target !== chipsContainer) return; // Why is this not working?
-    while (betting) {
-        currentBet = event.target.textContent;
-        if (currentBet > balance) {
-            event.target.style.display = "none";
-        }
-        balance -= currentBet;
-        betting = false;
-        dealing = true;
-        renderGame();
-    }
+    var betAmt = parseInt(event.target.textContent);
+    if (betAmt > balance) return;
+    balance -= betAmt;
+    currentBet += betAmt;
+    renderGame();
 }
 
 function buildDeck() {
@@ -189,49 +163,45 @@ function buildDeck() {
     return deck;
 }
 
-function renderGame() {
-    currentBalance.textContent = balance;
-    dealerTotal.textContent = dealerSum;
-    playerTotal.textContent = playerSum;
-    
-    if (betting) {
-        moneyTxt.textContent = `You bet ${currentBet}`;
-        announceTxt.textContent = "Dealing Cards!";;
-        // add chips container
-        hitBtn.style.display = "none";
-        dealBtn.style.display = "none";
-        holdBtn.style.display = "none";
-    }
-    if (dealing) {
-        // remove chips container
-        dealBtn.style.display = "block";
-    }
-    if (decision) {
-        hitBtn.style.display = "block";
-        dealBtn.style.display = "none";
-        holdBtn.style.display = "block";
-    }
-    if (result) {
-        console.log('we have a result');
-        hitBtn.style.display = "block";
-        holdBtn.style.display = "none";
-        hitBtn.style.display = "none";
-    }
+function inProgress() {
+    return (playerArray.length && !result);
 }
 
-function initGame() {
-    betting = true;
-    dealing = false;
-    // Set all values to empty/zero.
+function renderGame() {
+    var html = '';
+    dealerArray.forEach(function(card, idx) {
+        html += `<div class="card large ${inProgress() && idx === 0 ? 'back-red' : card.display}"></div>`;
+    });
+    dealerCards.innerHTML = html;
+    html = '';
+    playerArray.forEach(function(card) {
+        html += `<div class="card large ${card.display}"></div>`;
+    });
+    playerCards.innerHTML = html;
+
+    currentBalance.textContent = balance;
+    moneyTxt.textContent = currentBet;
+    dealerTotal.textContent = dealerSum;
+    playerTotal.textContent = playerSum;
+    chipsContainer.style.visibility = inProgress() ? "hidden" : "visible";
+    actionBtnCntr.style.visibility = inProgress() ? "visible" : "hidden";
+    dealBtn.disabled = inProgress() && currentBet;
+    announceTxt.textContent = result ? OUTCOMES[result] : 'Good Luck!';
+    if (result) resetHand();
+}
+
+function resetHand() {
     dealerArray = [];
     playerArray = [];
     dealerSum = 0;
     playerSum = 0;
-    balance = STARTING_BALANCE;
     currentBet = 0;
-    result = false;
-    // disable buttons here
+    result = null;
+}
 
+function initGame() {
+    resetHand();
+    balance = STARTING_BALANCE;
     deck = buildDeck();
     shuffleDeck();
     renderGame();   
