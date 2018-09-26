@@ -4,7 +4,7 @@ const STARTING_BALANCE = 1000;
 const OUTCOMES = {
     'p': 'Player Wins!',
     'd': 'Dealer Wins, Try again!',
-    't': "It's a tie",
+    't': "It's a Tie!",
     'pbj': 'Blackjack! Player Wins!',
     'dbj': 'Dealer gets Blackjack!',
     'pb': 'Player Busts',
@@ -52,7 +52,27 @@ standBtn.addEventListener('click', stand);
     // add a reset button that zeroes curretBalance
 
 /*----- functions -----*/
+
+function payout() {
+    // This is not working
+    
+    if (OUTCOMES[result] === OUTCOMES.p || OUTCOMES[result] === OUTCOMES.pbj || OUTCOMES[result] === OUTCOMES.db) {
+        console.log(`player wins ${currentBet}`);
+        balance += currentBet * 2;
+    }
+    if (OUTCOMES[result] === OUTCOMES.d || OUTCOMES[result] === OUTCOMES.dbj || OUTCOMES[result] === OUTCOMES.pb) {
+        currentBet = 0;
+    } else {
+        balance += currentBet;
+    }
+    renderGame();
+}
+
 function stand() {
+    showDealerCard();
+    dealerSum = computeHand(dealerHand);
+    renderGame();
+    // add LOGIC!!!!
     if (computeHand(playerHand) > computeHand(dealerHand)) {
         result = 'p';
     }    
@@ -61,6 +81,8 @@ function stand() {
     } else if (computeHand(playerHand) === computeHand(dealerHand)){
         result = 't';
     }
+    // payout();
+    if (computeHand(dealerHand) === 21) result = 'dbj';
     renderGame();
 }
 
@@ -68,15 +90,16 @@ function stand() {
 function computeHand(hand) {
     var sum = 0;
     var aces = 0;
-    
     hand.forEach(function(card) {
         sum += card.value;
+        if (card.display.includes('A')) aces++;
     });
-
-    while (sum > 21 && aces) {
-        sum -= 10;
-        aces -= 1;   
-    }
+    if (sum !== 21) {
+        while (sum > 21 && aces) {
+            sum -= 10;
+            aces -= 1;   
+        }
+    }   
     return sum;
 }
 
@@ -99,9 +122,8 @@ function dealCards() {
     drawCard(playerHand);
     playerSum = computeHand(playerHand);
     
-    if (computeHand(dealerHand) === 21) result = 'dbj';
     if (computeHand(playerHand) === 21) result = 'pbj';
-    renderGame();
+    renderGame()
 }
 
 function shuffleDeck() {
@@ -116,8 +138,6 @@ function shuffleDeck() {
 }
 
 function placeBet(event) {
-    console.log(`User has bet ${event.target.textContent}`);
-    // if (event.target !== chipsContainer) return; // Why is this not working?
     var betAmt = parseInt(event.target.textContent);
     if (betAmt > balance) return;
     balance -= betAmt;
@@ -144,28 +164,37 @@ function buildDeck() {
 }
 
 function inProgress() {
-    return (playerHand.length && !result);
+    return ((playerHand.length !== 0) && !result);
 }
 
-function renderGame() {
-    var html = '';
-    dealerHand.forEach(function(card, idx) {
-        html += `<div class="card large ${inProgress() && idx === 1 ? 'back-red' : card.display}"></div>`;
-    });
-    dealerCards.innerHTML = html;
+function showPlayerCard() {
     html = '';
     playerHand.forEach(function(card) {
         html += `<div class="card large ${card.display}"></div>`;
     });
     playerCards.innerHTML = html;
+}
+
+function showDealerCard() {
+    var html = '';
+    dealerHand.forEach(function(card, idx) {
+        html += `<div class="card large ${inProgress() && idx === 1 ? 'back-red' : card.display}"></div>`;
+    });
+    dealerCards.innerHTML = html;
+}
+
+function renderGame() {
+    showDealerCard();
+    showPlayerCard();
 
     currentBalance.textContent = balance;
-    moneyTxt.textContent = currentBet;
+    moneyTxt.textContent = `$ ${currentBet}`;
     dealerTotal.textContent = dealerSum;
     playerTotal.textContent = playerSum;
     betContainer.style.visibility = inProgress() ? "hidden" : "visible"; 
     actionBtnCntr.style.visibility = inProgress() ? "visible" : "hidden";
     dealBtn.disabled = inProgress() && currentBet;
+    // deal button is not disabled before currentBet has been made.
     announceTxt.textContent = result ? OUTCOMES[result] : 'Good Luck!';
     if (result) resetHand();
 }
@@ -188,3 +217,5 @@ function initGame() {
 }
 
 initGame();
+
+// I need to fix the balance displays
