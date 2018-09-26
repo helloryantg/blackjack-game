@@ -179,6 +179,10 @@ h5 {
     justify-content: space-between;
 }
 
+.card {
+    transition: all 2s linear;
+}
+
 .announcement-container {
     display: flex;
     flex-direction: column;

@@ -7,8 +7,8 @@ const OUTCOMES = {
     't': "It's a Tie!",
     'pbj': 'Blackjack! Player Wins!',
     'dbj': 'Dealer gets Blackjack!',
-    'pb': 'Player Busts',
-    'db': 'Dealer Busts'
+    'pb': 'Player Busts, You Lose!',
+    'db': 'Dealer Busts, You Win!'
 };
 
 /*----- app's state (variables) -----*/
@@ -106,12 +106,9 @@ function computeHand(hand) {
 }
 
 function hitMe() {
-    // hand
     drawCard(playerHand);
     playerSum = computeHand(playerHand);
-    // dealerSum
-    if (computeHand(playerHand) > 21) result = 'd';
-    // compute dealerHand
+    if (computeHand(playerHand) > 21) result = 'pb';
     renderGame();
 }
 
@@ -228,3 +225,4 @@ initGame();
 // AI Logic
 // fix bet-container 
     // add a reset button that zeroes curretBalance
+// deal button not working
