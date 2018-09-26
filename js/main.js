@@ -23,48 +23,46 @@ var dealerArray; // arrays
 var playerArray;  
 var dealerSum; // sums
 var playerSum;  
-var winner; // for when blackjack
+var result;
 var bust;
 
 // Not yet implemented
 var aces; // true if there is an Ace present
 
 /*----- cached element references -----*/
-var modalContainer = document.getElementById('modal-container');    // modal
-var dealerTotal = document.getElementById('dealerTotal');   // text Totals
+var modalContainer = document.getElementById('modal-container'); 
+var dealerTotal = document.getElementById('dealerTotal');  
 var playerTotal = document.getElementById('playerTotal');
-var dealBtn = document.getElementById('deal-btn');  // action buttons
+var dealBtn = document.getElementById('deal-btn'); 
 var hitBtn = document.getElementById('hit-btn');
 var holdBtn = document.getElementById('hold-btn');
-var dealerCards = document.getElementById('dealerCards'); // card containers
+var dealerCards = document.getElementById('dealerCards'); 
 var playerCards = document.getElementById('playerCards');
-// var newCard = document.createElement('div'); // new card element
-// var newCard1 = document.createElement('div');
-// newCard1.className = 'card large back-red';
-// newCard.className = 'card large back-red';
 var chipsContainer = document.querySelector('.chip-container')
 var announceTxt = document.getElementById('announcementText');
 var moneyTxt = document.getElementById('moneyLost');
 
 /*----- event listeners -----*/
-document.getElementById('start-btn').addEventListener('click', function(event) { // modal
+document.getElementById('start-btn').addEventListener('click', function(event) { 
     modalContainer.style.display = 'none';
-    console.log('User has pressed start game');
-})
-var currentBalance = document.getElementById('currentBalance'); // balance text
-chipsContainer.addEventListener('click', placeBet); // chips container
-dealBtn.addEventListener('click', dealCards); // deal button
-hitBtn.addEventListener('click', hitMe); // hit button
+});
+var currentBalance = document.getElementById('currentBalance'); 
+chipsContainer.addEventListener('click', placeBet);
+dealBtn.addEventListener('click', dealCards); 
+hitBtn.addEventListener('click', hitMe);
 holdBtn.addEventListener('click', hold);
 
 /*----- functions -----*/
-function generateCard(player) {
-    for (var i = 0; i < player; i++) {
+function generateDealerCard() {
         var newCard = document.createElement('div');
         newCard.className = 'card large back-red';
-        playerCards.appendChild(newCard);
-        // not working
-    }
+        dealerCards.appendChild(newCard);
+}
+
+function generatePlayerCard() {
+    var newCard = document.createElement('div');
+    newCard.className = 'card large back-red';
+    playerCards.appendChild(newCard);
 }
 
 function hold() {
@@ -73,30 +71,44 @@ function hold() {
 
 function hitMe() {
     var card = drawCard();
-    playerArray.push(card);
-    playerSum += card;
+    playerArray.push(card.display);
+    playerSum += card.value;
+    generatePlayerCard();
+    checkWinner();
+    checkBust();
+    renderGame();
+}
+
+function checkTie() {
+    if (playerSum === dealerSum) {
+        // result
+        result = true;
+        renderGame();
+    }
 }
 
 function checkBust() {
     if (playerSum > 21) {
-        bust = true;
-        console.log(OUTCOMES.pb);
+        // result
+        result = true;
+        decision = false;
     }
     if (dealerSum > 21) {
-        bust = true;
-        console.log(OUTCOMES.db);
+        // result
+        result = true;
+        decision = false;
     }
-    decision = false;
+    renderGame();
 }
 
 function checkWinner() {
     if (playerSum === 21 && dealerSum !== 21) {
-        winner === true;
-        console.log(OUTCOMES.p);
+        // result
+        result === true;
     } 
     if (dealerSum === 21 && playerSum !== 21) {
-        winner === true;
-        console.log(OUTCOMES.d);
+        // result
+        result === true;
     }
     decision = false;
     renderGame();
@@ -114,33 +126,26 @@ function dealCards() {
             var card = drawCard();
             playerArray.push(card.display);
             playerSum += card.value;
-            generateCard(playerArray);
-            console.log('it got here');
-            // playerCards.appendChild(newCard);
-            console.log(playerArray);
+            generatePlayerCard();
             renderGame();
         }
         for (var i = 0; i < 2; i++) {
             var card = drawCard();
             dealerArray.push(card);
             dealerSum += card.value;
-            // dealerCards.appendChild(newCard1);    
-            console.log(dealerArray);
+            generateDealerCard();
             renderGame();
         }
+        
         dealing = false;
         checkWinner();
         checkBust();
         decision = true;
         renderGame();
     }
-    if (decision) {
-        // Choice to hit or stand
-    }
 }
 
 function shuffleDeck() {
-    console.log('shuffled deck');
     for (var i = 0; i < deck.length; i++) {
         let swapIndex = Math.floor(Math.random() * deck.length);
         let randomCard = deck[swapIndex];
@@ -188,12 +193,8 @@ function renderGame() {
     currentBalance.textContent = balance;
     dealerTotal.textContent = dealerSum;
     playerTotal.textContent = playerSum;
-
-    generateCard(playerArray);
-    generateCard(dealerArray);
     
     if (betting) {
-        console.log('User has entered the betting stage');
         moneyTxt.textContent = `You bet ${currentBet}`;
         announceTxt.textContent = "Dealing Cards!";;
         // add chips container
@@ -202,20 +203,20 @@ function renderGame() {
         holdBtn.style.display = "none";
     }
     if (dealing) {
-        console.log('User has entered the dealing stage');
         // remove chips container
         dealBtn.style.display = "block";
     }
     if (decision) {
-        console.log('user has entered the decision stage');
         hitBtn.style.display = "block";
         dealBtn.style.display = "none";
         holdBtn.style.display = "block";
     }
-    if (winner) {
-        console.log('we have a winner');
+    if (result) {
+        console.log('we have a result');
+        hitBtn.style.display = "block";
+        holdBtn.style.display = "none";
+        hitBtn.style.display = "none";
     }
-
 }
 
 function initGame() {
@@ -228,7 +229,7 @@ function initGame() {
     playerSum = 0;
     balance = STARTING_BALANCE;
     currentBet = 0;
-    bust = null;
+    result = false;
     // disable buttons here
 
     deck = buildDeck();
@@ -238,12 +239,6 @@ function initGame() {
 
 initGame();
 
-// When user clicks on chips 
-    // If chipamount < balance continue;
-        // add value to currentBet
-            // * Grab html
-        // subtract balance -= currentBet
-        // change state to 
 
 
 // Win logic
