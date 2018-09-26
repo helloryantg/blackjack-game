@@ -190,7 +190,7 @@ h5 {
 .cards-container {
     padding-left: 40px;
     display: flex;
-    height: 90%;
+    flex-direction: row;
 }
 
 #announcementText {
