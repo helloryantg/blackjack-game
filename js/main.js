@@ -46,46 +46,48 @@ dealBtn.addEventListener('click', dealCards);
 hitBtn.addEventListener('click', hitMe);
 standBtn.addEventListener('click', stand);
 
-
-
-// fix bet-container 
-    // add a reset button that zeroes curretBalance
-
 /*----- functions -----*/
-
-function payout() {
-    // This is not working
-    
-    if (OUTCOMES[result] === OUTCOMES.p || OUTCOMES[result] === OUTCOMES.pbj || OUTCOMES[result] === OUTCOMES.db) {
-        console.log(`player wins ${currentBet}`);
-        balance += currentBet * 2;
+function computerLogic() {
+    console.log('it got here');
+    if (dealerSum <= 17) {
+        drawCard(dealerHand)
+        console.log(dealerHand);
+        dealerSum = computeHand(dealerHand);
     }
-    if (OUTCOMES[result] === OUTCOMES.d || OUTCOMES[result] === OUTCOMES.dbj || OUTCOMES[result] === OUTCOMES.pb) {
+    if (dealerSum > 18) return;
+}
+
+function computePayout() {
+    if (result === 'p' || result === 'pbj' || result === 'db') {
+        balance += currentBet;
+    }
+    if (result === 'd' || result === 'dbj' || result === 'pb') {
         currentBet = 0;
     } else {
         balance += currentBet;
     }
-    renderGame();
+    currentBet = 0;
+}
+
+function checkWin() {
+    if (computeHand(playerHand) > computeHand(dealerHand)) result = 'p';
+    if (computeHand(playerHand) < computeHand(dealerHand)) result = 'd';
+    if (computeHand(playerHand) === computeHand(dealerHand)) result = 't';
+    if (computeHand(playerHand) === 21) result = 'pbj';
+    if (computeHand(dealerHand) === 21) result = 'dbj';
+    if (computeHand(playerHand) > 21) result = 'pb';
+    if (computeHand(dealerHand) > 21) result = 'db';
 }
 
 function stand() {
     showDealerCard();
     dealerSum = computeHand(dealerHand);
     renderGame();
-    // add LOGIC!!!!
-    if (computeHand(playerHand) > computeHand(dealerHand)) {
-        result = 'p';
-    }    
-    if (computeHand(playerHand) < computeHand(dealerHand)) {
-        result = 'd';
-    } else if (computeHand(playerHand) === computeHand(dealerHand)){
-        result = 't';
-    }
-    // payout();
-    if (computeHand(dealerHand) === 21) result = 'dbj';
+    computerLogic();
+    checkWin();
+    computePayout();
     renderGame();
 }
-
 
 function computeHand(hand) {
     var sum = 0;
@@ -104,9 +106,12 @@ function computeHand(hand) {
 }
 
 function hitMe() {
+    // hand
     drawCard(playerHand);
     playerSum = computeHand(playerHand);
+    // dealerSum
     if (computeHand(playerHand) > 21) result = 'd';
+    // compute dealerHand
     renderGame();
 }
 
@@ -121,8 +126,6 @@ function dealCards() {
     drawCard(playerHand);
     drawCard(playerHand);
     playerSum = computeHand(playerHand);
-    
-    if (computeHand(playerHand) === 21) result = 'pbj';
     renderGame()
 }
 
@@ -195,6 +198,7 @@ function renderGame() {
     actionBtnCntr.style.visibility = inProgress() ? "visible" : "hidden";
     dealBtn.disabled = inProgress() && currentBet;
     // deal button is not disabled before currentBet has been made.
+    // deal button still works even when in result
     announceTxt.textContent = result ? OUTCOMES[result] : 'Good Luck!';
     if (result) resetHand();
 }
@@ -218,4 +222,9 @@ function initGame() {
 
 initGame();
 
+// Bugs
 // I need to fix the balance displays
+// deal button is not going away
+// AI Logic
+// fix bet-container 
+    // add a reset button that zeroes curretBalance
