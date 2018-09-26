@@ -2,65 +2,53 @@
 const STARTING_BALANCE = 1000;
 
 /*----- app's state (variables) -----*/
-
 var betting; // betting
 var dealing; // dealing stage
 var hitting; // hitting stage
-
-var winner; // for when blackjack
-var balance; // that gets updated a lot
-
+var decision;
+var balance; // balance left
 var deck;
-var currentBet; // what value chip was chosen
+var currentBet; // chip value chosen
+var dealerArray; // arrays
+var playerArray;  
+var dealerSum; // sums
+var playerSum;  
 
+// Not yet implemented
+var outcome;
 var blackjack; // if someone gets a blackjack
-
-var dealerArray; // dealer cards
-var playerArray; // player cards
-
-var dealerSum; // dealer array totals
-var playerSum; // player array totals
-
 var aces; // true if there is an Ace present
 var bust; // true if player goes over 21
+var winner; // for when blackjack
 
 /*----- cached element references -----*/
-// Modal container
-var modalContainer = document.getElementById('modal-container');
-
-var dealerTotal = document.getElementById('dealerTotal');
+var modalContainer = document.getElementById('modal-container');    // modal
+var dealerTotal = document.getElementById('dealerTotal');   // text Totals
 var playerTotal = document.getElementById('playerTotal');
-
-// Action buttons
-var dealBtn = document.getElementById('deal-btn');
+var dealBtn = document.getElementById('deal-btn');  // action buttons
 var hitBtn = document.getElementById('hit-btn');
-var standBtn = document.getElementById('stand-btn');
-
-// Cards containers
-var dealerCards = document.getElementById('dealerCards');
+var holdBtn = document.getElementById('hold-btn');
+var dealerCards = document.getElementById('dealerCards'); // card containers
 var playerCards = document.getElementById('playerCards');
-
+var newCard = document.createElement('div'); // new card element
+newCard.className = 'card large back-red';
 var chipsContainer = document.querySelector('.chip-container')
+
 /*----- event listeners -----*/
-// Modal controller
-document.getElementById('start-btn').addEventListener('click', function(event) {
+document.getElementById('start-btn').addEventListener('click', function(event) { // modal
     modalContainer.style.display = 'none';
     console.log('User has pressed start game');
 })
-// Balance Text
-var currentBalance = document.getElementById('currentBalance');
-
-// Chips container
-chipsContainer.addEventListener('click', placeBet);
-
-// Deal button
-// Only on when in deal stage
-dealBtn.addEventListener('click', dealCards);
-
-// Hit button
-hitBtn.addEventListener('click', hitMe);
+var currentBalance = document.getElementById('currentBalance'); // balance text
+chipsContainer.addEventListener('click', placeBet); // chips container
+dealBtn.addEventListener('click', dealCards); // deal button
+hitBtn.addEventListener('click', hitMe); // hit button
+holdBtn.addEventListener('click', hold);
 
 /*----- functions -----*/
+function hold() {
+    // code to stand
+}
 
 function hitMe() {
     // code for when user wants to hit
@@ -69,6 +57,11 @@ function hitMe() {
 function checkWinner() {
     // code for when there is a winner
     // return true if winner
+    if (playerSum === 21) {
+        blackjack = 'p';
+    } else if (dealerSum === 21) {
+        blackjack = 'd';
+    }
 }
 
 function drawCard() {
@@ -79,34 +72,27 @@ function drawCard() {
 
 function dealCards() {
     console.log('cards are dealt');
-    // code to deal cards 
-    for (var i = 0; i < 2; i++) {
-        var card = drawCard();
-        playerArray.push(card.display);
-        playerSum += card.value;
+
+    if (dealing) {
+        for (var i = 0; i < 2; i++) {
+            var card = drawCard();
+            playerArray.push(card.display);
+            playerSum += card.value;
+            renderGame();
+        }
+        for (var i = 0; i < 2; i++) {
+            var card = drawCard();
+            dealerArray.push(card);
+            dealerSum += card.value;
+            renderGame();
+        }
+        dealing = false;
+        decision = true;
         renderGame();
     }
-    console.log(playerArray);
-    console.log(playerSum);
-
-    for (var i = 0; i < 2; i++) {
-        var card = drawCard();
-        dealerArray.push(card);
-        dealerSum += card.value;
-        renderGame();
+    if (decision) {
+        // Choice to hit or stand
     }
-    console.log(dealerArray);
-    
-
-    dealing = false;
-    // Dealing stage now over
-    // Choice to hit or stand
-    /////////////////////////////////////////////////////////////
-    hitting = true;
-    standing = true;
-    renderGame();
-    // update player and dealer arrays
-    // check for winner
 }
 
 function shuffleDeck() {
@@ -123,6 +109,7 @@ function shuffleDeck() {
 
 function placeBet(event) {
     console.log(`User has bet ${event.target.textContent}`);
+    // if (event.target !== chipsContainer) return; // Why is this not working?
     while (betting) {
         currentBet = event.target.textContent;
         if (currentBet > balance) {
@@ -154,33 +141,42 @@ function buildDeck() {
 }
 
 function renderGame() {
-    // This gets called a lot 
     currentBalance.textContent = balance;
-
     dealerTotal.textContent = dealerSum;
     playerTotal.textContent = playerSum;
+    
+    for (var i = 0; i < dealerArray.length; i++) {
+        dealerCards.appendChild(newCard)    
+    }
 
-    // create divs with classname specific to the amount of cards dealt
-    dealerCards.
-
-
+    checkWinner();
+    
     if (betting) {
         console.log('User has entered the betting stage');
         // change texts to bets
         // enable betting btn
         // user clicks chip to bet
+        hitBtn.style.display = "none";
+        dealBtn.style.display = "none";
+        holdBtn.style.display = "none";
+
     }
     if (dealing) {
         console.log('User has entered the dealing stage');
         shuffleDeck(); // confirmed
         console.log(deck);
+        chipsContainer.style.display = "none";
+        dealBtn.style.display = "block";
         // update to allow deal btn
         // deal cards
         // Display cards and values - render
         // check for winner - if no winner change state to hitting stage - render 
     }
-    if (hitting) {
-
+    if (decision) {
+        // check for Winner
+        hitBtn.style.display = "block";
+        dealBtn.style.display = "none";
+        holdBtn.style.display = "none";
     }
     if (winner) {
         console.log('we have a winner');
@@ -189,8 +185,6 @@ function renderGame() {
 }
 
 function initGame() {
-    // For when the game loads
-    // clear all texts and values
     betting = true;
     dealing = false;
     
@@ -200,7 +194,7 @@ function initGame() {
     dealerSum = 0;
     playerSum = 0;
     balance = STARTING_BALANCE;
-    
+    blackjack = null;
     // disable buttons here
 
     deck = buildDeck();
@@ -208,20 +202,6 @@ function initGame() {
 }
 
 initGame();
-
-// Notes
-// For buttons, I can add a className called .hide to hide buttons
-
-// Main focus is to get the card gameplay going
-
-// Game Board Initializes
-    // Empty arrays
-    // balance = starting balance
-    // Build deck
-    // Render
-        // balance text
-        // chips
-        // deal button
 
 // When user clicks on chips 
     // If chipamount < balance continue;
@@ -242,3 +222,33 @@ initGame();
 // while (playerSum > dealerSum && playerSum <= 21) {
 
 // }
+
+// render a lot and change state per user interaction
+// deal - check arrays.lenght if 0 - allow deal button && if bet > 0
+// make bet variable
+// before render check blackjack
+// make variable = blackjack - set to p or d;
+// when you press deal = init bj to null
+
+// if balance is less than the value of chip // disable chip
+
+// function computeHand(hand) {
+//     var sum = 0;
+//     var aces = 0;
+//     hand for each (card) 
+//     sum += card.value;
+//     if (card.value) aces++;
+
+//     while (sum > 21 && aces) {
+//         sum -= 10
+//         aces -= 1
+//     }
+//     return sum;
+// }
+
+// Outcomes
+// if player wins
+// if dealer wins
+// if tie
+// if player bj
+// if dealer bj

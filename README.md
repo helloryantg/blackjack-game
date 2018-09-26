@@ -68,5 +68,44 @@
 ##### Variables
 
 ## Pseudocode
+* Default - modal set to visible
+* Start button event listener
+    * turns off modal container
 * Initialize board
-    * 
+    * Set balance = $1000 (starting balance)
+    - Set annoucement = "Game Start"
+    - Set moneyText = "Place your bet"
+    * Empty both dealer and player arrays
+    * Set both dealer and player sums to zero
+    * build the main deck
+    * betting = true 
+    * dealing = false
+    - Deal / Hit / Hold buttons disabled
+* Render
+    * balance = currentBalance
+    * bet window = currentBet
+    * update texts of sums
+    * add element of cards into card container
+    
+    - check for winner???
+
+    - Depending on current turn - set annoucements
+    * Betting stage
+        * annoucement = "Place your bet"
+        * disable deal / hit / hold buttons
+        * chips enabled - allow betting
+    * Dealing stage
+        * annoucement = "Dealing cards"
+        * enable deal button - allow dealing
+        * disable hit / hold buttons
+        * disable chips
+    * Decision stage
+        * check for winner
+        * annoucement
+            * if blackjack - Player/Dealer has blackjack!
+            * If !blackjack - Hit or Hold
+        * disable deal button
+        * disable chips
+        * enable hit / hold buttons
+
+    

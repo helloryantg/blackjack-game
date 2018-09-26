@@ -26,7 +26,7 @@ body {
 }
 
 #modal-logo {
-    width: 600px;
+    width: 600cax;
     height: 100px;
 }
 
@@ -190,6 +190,7 @@ h5 {
 .cards-container {
     padding-left: 40px;
     display: flex;
+    height: 90%;
 }
 
 #announcementText {
