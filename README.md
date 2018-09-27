@@ -1,111 +1,37 @@
 # Blackjack Card Game
 
-* Goal of the game - beat the dealer by getting a count as 21 or as close to 21
+![Blackjack Modal](./images/blackjack-play1.png)
+
+* The goal of the game is to beat the dealer's hand by getting a "blackjack"or beat the dealer's total sum of cards.
+* Blackjack - cards that total 21.
+* Bust - when you go over 21.
+* Ace card can count as 1 or 11.
+* Face cards - (J, Q, K) count as 10.
+* Values of 2 through 10 count as their respective numbers.
+* Count of deck is set to 52 to be able to practice counting cards.
+* Winning a round pays 1:1
+* Buttons:
+    * Deal - deals the cards to the dealer and player. 
+    * Hit - allows the player to receive one extra card
+    * Stand - tells the dealer to play their cards and compare.
+    * Double - double your initial bet and receive only one more card.
 
 ## User stores:
-* User sees popup page with start button - must be able to press start button.
+* User sees popup page with start button .
+* User must be able to press start button to show gameboard.
 * User sees gameboard.
-    * Initial page must have 4 cards on the table facedown  X
-    * Dealer and Player containers are not selected X
-    * Announcement container defaults to "Game Starting... Dealing Cards"   X
-    * Hit / Hold / Double buttons de-selected   
-    * Balance is set to $1000   X
-    * Chips are de-selected 
-* User must be able to select and press hold, hit, or double buttons
-* User must be able to select amount of chip to bet
-* User must be able to reset the game without quitting. X
-* User must be able to quit game to go back to pop-up screen.   X
+    * Initial page must have no cards on the table. 
+    * Announcement has "Good Luck!" message.
+    * Chips must be chosen before deal button is activated.
+    * Hit, Stand, and Double buttons become visible after pressing Deal.  
+    * Balance is set to $1000.   
+* User must be able to select either 10, 25, or 50 chip values multiple times.
+* User must be able to press Hold, Hit, or Double buttons. 
+* User must be able to press reset  button to restart game without reloading the page.
+* User must be able to quit game to reload the page with the modal view.  
 
-## Gameplay
-* Board starts out with no cards    X
-* Round begins  X
-* Player gets to choose amount using chips - state = bets   X
-    * Once pressed, subtract from balance   X
-* If deck > 4 - deal cards
-* Player gets 2 cards face up - check for 21 
-    * Add 2 cards to the array - subtract from deck
-* Dealer gets 1 card face up and 1 card face down
-    * Add 2 cards to dealer array - subtract from deck
-    * If ace card is showing - side wager (BONUS)
-* While player cards is less than 21 - if 21, return;
-    * player gets to choose to hold / hit / double
-* Dealer flips cards - check for 21
-    * Dealer conditions
-    * Compare card values
-    * If Dealer also has 21
-        * It's a tie 
-    * If not, Player wins.
-* If deck !== 4 - Shuffle cards
-
-### Conditions
-* If total >= 18 stay
-* If total <= 18 hit
-* If total === 21 blackjack
-* If no bust - compare values with player
-* If dealer > player - dealer wins
-* If dealer < player - player wins
-* If dealer === player - it's a tie
-
-
-#### Technologies
+### Technologies
 * HTML 
 * CSS
-
-
-#### Game
-* Array of card objects for main deck
-    * Card values = 1 - 10 (10 for all face cards)
-    * Suits (unecessary?)
-* Player and Dealer - seperate Arrays to compare to each other which is greater
-* Nested for-loops for the suits? 
-* Use CSS-framework for cards
-
-
-##### Notes
-* Make sure to add state - when cards are in play - don't allow betting/holding/staying
-* Z-index for stacking
-
-##### Variables
-
-## Pseudocode
-* Default - modal set to visible
-* Start button event listener
-    * turns off modal container
-* Initialize board
-    * Set balance = $1000 (starting balance)
-    - Set annoucement = "Game Start"
-    - Set moneyText = "Place your bet"
-    * Empty both dealer and player arrays
-    * Set both dealer and player sums to zero
-    * build the main deck
-    * betting = true 
-    * dealing = false
-    - Deal / Hit / Hold buttons disabled
-* Render
-    * balance = currentBalance
-    * bet window = currentBet
-    * update texts of sums
-    * add element of cards into card container
-    
-    - check for winner???
-
-    - Depending on current turn - set annoucements
-    * Betting stage
-        * annoucement = "Place your bet"
-        * disable deal / hit / hold buttons
-        * chips enabled - allow betting
-    * Dealing stage
-        * annoucement = "Dealing cards"
-        * enable deal button - allow dealing
-        * disable hit / hold buttons
-        * disable chips
-    * Decision stage
-        * check for winner
-        * annoucement
-            * if blackjack - Player/Dealer has blackjack!
-            * If !blackjack - Hit or Hold
-        * disable deal button
-        * disable chips
-        * enable hit / hold buttons
-
-    
+* Vanilla JavaScript
+* External CSS Stylesheet with playing card SVGs

@@ -37,6 +37,8 @@ var announceTxt = document.getElementById('announcementText');
 var moneyTxt = document.getElementById('moneyLost');
 
 /*----- event listeners -----*/
+document.getElementById('quitBtn').addEventListener('click', reloadPage);
+document.getElementById('restartBtn').addEventListener('click', initGame);
 document.getElementById('start-btn').addEventListener('click', function(event) { 
     modalContainer.style.display = 'none';
 });
@@ -47,20 +49,21 @@ hitBtn.addEventListener('click', hitMe);
 standBtn.addEventListener('click', stand);
 
 /*----- functions -----*/
+function reloadPage() {
+    location.reload();
+}
+
 function computerLogic() {
-    console.log('it got here');
-    if (dealerSum <= 17) {
+    while (dealerSum <= 17) {
         drawCard(dealerHand)
-        console.log(dealerHand);
         dealerSum = computeHand(dealerHand);
+        renderGame();
     }
     if (dealerSum > 18) return;
 }
 
 function computePayout() {
-    if (result === 'p' || result === 'pbj' || result === 'db') {
-        balance += currentBet;
-    }
+    if (result === 'p' || result === 'pbj' || result === 'db') balance += currentBet;
     if (result === 'd' || result === 'dbj' || result === 'pb') {
         currentBet = 0;
     } else {
@@ -186,17 +189,15 @@ function showDealerCard() {
 function renderGame() {
     showDealerCard();
     showPlayerCard();
-
     currentBalance.textContent = balance;
     moneyTxt.textContent = `$ ${currentBet}`;
     dealerTotal.textContent = dealerSum;
     playerTotal.textContent = playerSum;
     betContainer.style.visibility = inProgress() ? "hidden" : "visible"; 
     actionBtnCntr.style.visibility = inProgress() ? "visible" : "hidden";
-    dealBtn.disabled = inProgress() && currentBet;
-    // deal button is not disabled before currentBet has been made.
-    // deal button still works even when in result
     announceTxt.textContent = result ? OUTCOMES[result] : 'Good Luck!';
+    dealBtn.style.visibility = currentBet ? "visible" : "hidden";
+    dealBtn.disabled = !currentBet;
     if (result) resetHand();
 }
 
@@ -219,10 +220,11 @@ function initGame() {
 
 initGame();
 
-// Bugs
-// I need to fix the balance displays
-// deal button is not going away
-// AI Logic
-// fix bet-container 
-    // add a reset button that zeroes curretBalance
-// deal button not working
+// Bugs and Fixes
+    // Deal button works even after going over 21    
+    // Add Double
+    // deal button is not going away
+    // AI Logic
+    // fix bet-container 
+        // add a reset button that zeroes curretBalance
+    // deal button not working
