@@ -47,3 +47,4 @@
 * Double function has not been added - will be added in future update!
 * Add reset button that resets currentBet in case user doesn't want to be that much.
 * CSS styling issues - not responsive
+* Reset deck when the number of cards is less than or equal to 0.

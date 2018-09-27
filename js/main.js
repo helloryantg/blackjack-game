@@ -28,6 +28,7 @@ var actionBtnCntr = document.querySelector('.action-btn-container');
 var dealBtn = document.getElementById('deal-btn'); 
 var hitBtn = document.getElementById('hit-btn');
 var standBtn = document.getElementById('stand-btn');
+var doubleBtn = document.getElementById('double-btn');
 var dealerCards = document.getElementById('dealerCards'); 
 var playerCards = document.getElementById('playerCards');
 var chipsContainer = document.querySelector('.chip-container');
@@ -36,6 +37,7 @@ var announceTxt = document.getElementById('announcementText');
 var moneyTxt = document.getElementById('moneyLost');
 
 /*----- event listeners -----*/
+doubleBtn.addEventListener('click', double);
 document.getElementById('quitBtn').addEventListener('click', reloadPage);
 document.getElementById('restartBtn').addEventListener('click', initGame);
 document.getElementById('start-btn').addEventListener('click', function(event) { 
@@ -48,6 +50,15 @@ hitBtn.addEventListener('click', hitMe);
 standBtn.addEventListener('click', stand);
 
 /*----- functions -----*/
+function double() {
+    drawCard(playerHand);
+    playerSum = computeHand(playerHand);
+    if (computeHand(playerHand) > 21) result = 'playerBust';
+    currentBet += currentBet * 1.5;
+    if (playerSum <= 21) computerLogic();
+    checkWin();
+}
+
 function reloadPage() {
     location.reload();
 }
@@ -75,10 +86,12 @@ function checkWin() {
     if (computeHand(playerHand) > computeHand(dealerHand)) result = 'playerWins';
     if (computeHand(playerHand) < computeHand(dealerHand)) result = 'dealerWins';
     if (computeHand(playerHand) === computeHand(dealerHand)) result = 'tie';
-    if (computeHand(playerHand) === 21) result = 'playerBlackjack';
-    if (computeHand(dealerHand) === 21) result = 'dealerBlackjack';
+    if (computeHand(playerHand) === 21 && !OUTCOMES['tie']) result = 'playerBlackjack';
+    if (computeHand(dealerHand) === 21 && !OUTCOMES['tie']) result = 'dealerBlackjack';
     if (computeHand(playerHand) > 21) result = 'playerBust';
     if (computeHand(dealerHand) > 21) result = 'dealerBust';
+    computePayout();
+    renderGame();
 }
 
 function stand() {
@@ -87,8 +100,6 @@ function stand() {
     renderGame();
     computerLogic();
     checkWin();
-    computePayout();
-    renderGame();
 }
 
 function computeHand(hand) {
@@ -119,6 +130,7 @@ function drawCard(hand) {
 }
 
 function dealCards() {
+    if (deck.length < 20) makeNewDeck();
     drawCard(dealerHand);
     dealerSum = computeHand(dealerHand);
     drawCard(dealerHand);
@@ -160,7 +172,6 @@ function renderGame() {
     showDealerCard();
     showPlayerCard();
     currentBalance.textContent = balance;
-
     moneyTxt.textContent = `$ ${currentBet}`;
     dealerTotal.textContent = dealerSum;
     playerTotal.textContent = playerSum;
@@ -169,6 +180,7 @@ function renderGame() {
     announceTxt.textContent = result ? OUTCOMES[result] : 'Place your bets and press DEAL!';
     dealBtn.style.visibility = currentBet && (playerHand.length < 2) ? "visible" : "hidden";
     dealBtn.disabled = !currentBet;
+    doubleBtn.style.visibility = inProgress() && (playerHand.length <= 2) ? "visible" : "hidden";
     if (result) resetHand();
 }
 
@@ -210,11 +222,15 @@ function resetHand() {
     result = null;
 }
 
+function makeNewDeck() {
+    deck = buildDeck();
+    shuffleDeck();
+}
+
 function initGame() {
     resetHand();
     balance = STARTING_BALANCE;
-    deck = buildDeck();
-    shuffleDeck();
+    makeNewDeck();
     renderGame();   
 }
 
