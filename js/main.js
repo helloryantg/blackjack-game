@@ -1,14 +1,13 @@
 /*----- constants -----*/
 const STARTING_BALANCE = 1000;
-
 const OUTCOMES = {
-    'p': 'Player Wins!',
-    'd': 'Dealer Wins, Try again!',
-    't': "It's a Tie!",
-    'pbj': 'Blackjack! Player Wins!',
-    'dbj': 'Dealer gets Blackjack!',
-    'pb': 'Player Busts, You Lose!',
-    'db': 'Dealer Busts, You Win!'
+    'playerWins': 'Player Wins!',
+    'dealerWins': 'Dealer Wins, Try again!',
+    'tie': "It's a Tie!",
+    'playerBlackjack': 'Blackjack! Player Wins!',
+    'dealerBlackjack': 'Dealer gets Blackjack!',
+    'playerBust': 'Player Busts, You Lose!',
+    'dealerBust': 'Dealer Busts, You Win!'
 };
 
 /*----- app's state (variables) -----*/
@@ -63,8 +62,8 @@ function computerLogic() {
 }
 
 function computePayout() {
-    if (result === 'p' || result === 'pbj' || result === 'db') balance += currentBet;
-    if (result === 'd' || result === 'dbj' || result === 'pb') {
+    if (result === 'playerWins' || result === 'playerBlackjack' || result === 'dealerBust') balance += currentBet;
+    if (result === 'dealerWins' || result === 'dealerBlackjack' || result === 'playerBust') {
         currentBet = 0;
     } else {
         balance += currentBet;
@@ -73,13 +72,13 @@ function computePayout() {
 }
 
 function checkWin() {
-    if (computeHand(playerHand) > computeHand(dealerHand)) result = 'p';
-    if (computeHand(playerHand) < computeHand(dealerHand)) result = 'd';
-    if (computeHand(playerHand) === computeHand(dealerHand)) result = 't';
-    if (computeHand(playerHand) === 21) result = 'pbj';
-    if (computeHand(dealerHand) === 21) result = 'dbj';
-    if (computeHand(playerHand) > 21) result = 'pb';
-    if (computeHand(dealerHand) > 21) result = 'db';
+    if (computeHand(playerHand) > computeHand(dealerHand)) result = 'playerWins';
+    if (computeHand(playerHand) < computeHand(dealerHand)) result = 'dealerWins';
+    if (computeHand(playerHand) === computeHand(dealerHand)) result = 'tie';
+    if (computeHand(playerHand) === 21) result = 'playerBlackjack';
+    if (computeHand(dealerHand) === 21) result = 'dealerBlackjack';
+    if (computeHand(playerHand) > 21) result = 'playerBust';
+    if (computeHand(dealerHand) > 21) result = 'dealerBust';
 }
 
 function stand() {
@@ -111,7 +110,7 @@ function computeHand(hand) {
 function hitMe() {
     drawCard(playerHand);
     playerSum = computeHand(playerHand);
-    if (computeHand(playerHand) > 21) result = 'pb';
+    if (computeHand(playerHand) > 21) result = 'playerBust';
     renderGame();
 }
 
@@ -129,41 +128,12 @@ function dealCards() {
     renderGame()
 }
 
-function shuffleDeck() {
-    for (var i = 0; i < deck.length; i++) {
-        let swapIndex = Math.floor(Math.random() * deck.length);
-        let randomCard = deck[swapIndex];
-        let currentCard = deck[i];
-        deck[swapIndex] = currentCard;
-        deck[i] = randomCard;
-    }
-    return deck;
-}
-
 function placeBet(event) {
     var betAmt = parseInt(event.target.textContent);
     if (betAmt > balance) return;
     balance -= betAmt;
     currentBet += betAmt;
     renderGame();
-}
-
-function buildDeck() {
-    var suits = ['d', 'h', 's', 'c'];
-    var names = ['02', '03', '04', '05', '06', '07', '08', '09', '10', 'J', 'Q', 'K', 'A'];
-    var values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11];
-    var deck = [];
-
-    suits.forEach(function(suit) {
-        names.forEach(function(name, idx) {
-            var card = {
-                display: suit + name,
-                value: values[idx]
-            };
-            deck.push(card);
-        });
-    });
-    return deck;
 }
 
 function inProgress() {
@@ -190,15 +160,45 @@ function renderGame() {
     showDealerCard();
     showPlayerCard();
     currentBalance.textContent = balance;
+
     moneyTxt.textContent = `$ ${currentBet}`;
     dealerTotal.textContent = dealerSum;
     playerTotal.textContent = playerSum;
     betContainer.style.visibility = inProgress() ? "hidden" : "visible"; 
     actionBtnCntr.style.visibility = inProgress() ? "visible" : "hidden";
-    announceTxt.textContent = result ? OUTCOMES[result] : 'Good Luck!';
-    dealBtn.style.visibility = currentBet ? "visible" : "hidden";
+    announceTxt.textContent = result ? OUTCOMES[result] : 'Place your bets and press DEAL!';
+    dealBtn.style.visibility = currentBet && (playerHand.length < 2) ? "visible" : "hidden";
     dealBtn.disabled = !currentBet;
     if (result) resetHand();
+}
+
+function shuffleDeck() {
+    for (var i = 0; i < deck.length; i++) {
+        let swapIndex = Math.floor(Math.random() * deck.length);
+        let randomCard = deck[swapIndex];
+        let currentCard = deck[i];
+        deck[swapIndex] = currentCard;
+        deck[i] = randomCard;
+    }
+    return deck;
+}
+
+function buildDeck() {
+    var suits = ['d', 'h', 's', 'c'];
+    var names = ['02', '03', '04', '05', '06', '07', '08', '09', '10', 'J', 'Q', 'K', 'A'];
+    var values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11];
+    var deck = [];
+
+    suits.forEach(function(suit) {
+        names.forEach(function(name, idx) {
+            var card = {
+                display: suit + name,
+                value: values[idx]
+            };
+            deck.push(card);
+        });
+    });
+    return deck;
 }
 
 function resetHand() {
@@ -219,12 +219,3 @@ function initGame() {
 }
 
 initGame();
-
-// Bugs and Fixes
-    // Deal button works even after going over 21    
-    // Add Double
-    // deal button is not going away
-    // AI Logic
-    // fix bet-container 
-        // add a reset button that zeroes curretBalance
-    // deal button not working

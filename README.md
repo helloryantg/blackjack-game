@@ -37,15 +37,13 @@
 ## Technologies
 * HTML 
 * CSS
-* Vanilla JavaScript
+* JavaScript
 * CSS library for card SVGs
 
-## Link to Deployed
+## Getting Started
 [Deployed Game](https://helloryantg.github.io/blackjack-game/)
 
-### Unsolved Issues
-* Deal button continues to work and renders more cards even after results screen has been rendered.
+### Next Steps
 * Double function has not been added - will be added in future update!
 * Add reset button that resets currentBet in case user doesn't want to be that much.
-* Issues with deal button staying on screen at different stages
 * CSS styling issues - not responsive
