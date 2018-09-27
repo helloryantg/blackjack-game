@@ -8,31 +8,32 @@
 * Ace card can count as 1 or 11.
 * Face cards - (J, Q, K) count as 10.
 * Values of 2 through 10 count as their respective numbers.
-* Count of deck is set to 52 to be able to practice counting cards.
+* Count of deck is set to 52, but automatically shuffles once remaining cards reach 20.
 * Winning a round pays 1:1
+* Winning a double hand pays 1:3
 * Buttons:
-    * Deal - deals the cards to the dealer and player. 
-    * Hit - allows the player to receive one extra card
-    * Stand - tells the dealer to play their cards and compare.
-    * Double - double your initial bet and receive only one more card.
+    * __DEAL__ - deals the cards to the dealer and player. 
+    * __HIT__ - allows the player to receive one extra card
+    * __STAND__ - tells the dealer to play their cards and compare.
+    * __DOUBLE__ - double your initial bet and receive only one more card.
 
-![Blackjack Modal](./images/blackjack-play2.png)
+![Blackjack Gameplay 1](./images/blackjack-play2.png)
 
 ## User stores:
-* User sees popup page with start button .
+* User sees modal page with start button .
 * User must be able to press start button to show gameboard.
 * User sees gameboard.
     * Initial page must have no cards on the table. 
     * Announcement has "Good Luck!" message.
     * Chips must be chosen before deal button is activated.
-    * Hit, Stand, and Double buttons become visible after pressing Deal.  
+    * __HIT__, __STAND__, and __DOUBLE__ buttons become visible after pressing Deal.  
     * Balance is set to $1000.   
-* User must be able to select either 10, 25, or 50 chip values multiple times.
-* User must be able to press Hold, Hit, or Double buttons. 
-* User must be able to press reset  button to restart game without reloading the page.
-* User must be able to quit game to reload the page with the modal view.  
+* User must be able to select either _10_, _25_, or _50_ chip values multiple times.
+* User must be able to press __HIT__, __STAND__, or __DOUBLE__ buttons. 
+* User must be able to press __RESET__  button to restart game without reloading the page.
+* User must be able to press __QUIT__ button to reload the page with the modal view.  
 
-![Blackjack Modal](./images/blackjack-play3.png)
+![Blackjack Gameplay 2](./images/blackjack-play3.png)
 
 ## Technologies
 * HTML 
@@ -44,7 +45,7 @@
 [Deployed Game](https://helloryantg.github.io/blackjack-game/)
 
 ### Next Steps
-* Double function has not been added - will be added in future update!
-* Add reset button that resets currentBet in case user doesn't want to be that much.
-* CSS styling issues - not responsive
-* Reset deck when the number of cards is less than or equal to 0.
+* Add BET RESET button that resets current bet amount.
+* CSS Styling issues - would like to make game playable in mobile.
+* Audio for card fliping and background music.
+

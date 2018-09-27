@@ -54,7 +54,7 @@ function double() {
     drawCard(playerHand);
     playerSum = computeHand(playerHand);
     if (computeHand(playerHand) > 21) result = 'playerBust';
-    currentBet += currentBet * 1.5;
+    currentBet += currentBet * 2;
     if (playerSum <= 21) computerLogic();
     checkWin();
 }
