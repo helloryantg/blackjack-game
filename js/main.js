@@ -54,8 +54,8 @@ function double() {
     drawCard(playerHand);
     playerSum = computeHand(playerHand);
     if (computeHand(playerHand) > 21) result = 'playerBust';
-    currentBet += currentBet * 2;
-    if (playerSum <= 21) computerLogic();
+    currentBet += currentBet;
+    computerLogic();
     checkWin();
 }
 
@@ -64,12 +64,11 @@ function reloadPage() {
 }
 
 function computerLogic() {
-    while (dealerSum <= 17) {
+    while (dealerSum < 17) {
         drawCard(dealerHand)
         dealerSum = computeHand(dealerHand);
-        renderGame();
     }
-    if (dealerSum > 18) return;
+    renderGame();
 }
 
 function computePayout() {
@@ -86,12 +85,22 @@ function checkWin() {
     if (computeHand(playerHand) > computeHand(dealerHand)) result = 'playerWins';
     if (computeHand(playerHand) < computeHand(dealerHand)) result = 'dealerWins';
     if (computeHand(playerHand) === computeHand(dealerHand)) result = 'tie';
-    if (computeHand(playerHand) === 21 && !OUTCOMES['tie']) result = 'playerBlackjack';
-    if (computeHand(dealerHand) === 21 && !OUTCOMES['tie']) result = 'dealerBlackjack';
+    if (computeHand(playerHand) === 21) result = 'playerWins';
+    if (computeHand(dealerHand) === 21) result = 'dealerWins';
     if (computeHand(playerHand) > 21) result = 'playerBust';
     if (computeHand(dealerHand) > 21) result = 'dealerBust';
     computePayout();
     renderGame();
+}
+
+function checkBlackJack() { 
+    if (playerSum === dealerSum) {
+        result = 'tie';
+    } else if (playerSum === 21) {
+        result = 'playerBlackjack';
+    } else if (dealerSum === 21) {
+        result = 'dealerBlackjack';
+    }
 }
 
 function stand() {
@@ -121,7 +130,11 @@ function computeHand(hand) {
 function hitMe() {
     drawCard(playerHand);
     playerSum = computeHand(playerHand);
-    if (computeHand(playerHand) > 21) result = 'playerBust';
+    if (computeHand(playerHand) > 21){
+        showDealerCard();
+        dealerSum = computeHand(dealerHand);  
+        result = 'playerBust';
+    } 
     renderGame();
 }
 
@@ -137,6 +150,7 @@ function dealCards() {
     drawCard(playerHand);
     drawCard(playerHand);
     playerSum = computeHand(playerHand);
+    checkBlackJack();
     renderGame()
 }
 
@@ -175,12 +189,12 @@ function renderGame() {
     moneyTxt.textContent = `$ ${currentBet}`;
     dealerTotal.textContent = dealerSum;
     playerTotal.textContent = playerSum;
-    betContainer.style.visibility = inProgress() ? "hidden" : "visible"; 
-    actionBtnCntr.style.visibility = inProgress() ? "visible" : "hidden";
+    betContainer.style.visibility = inProgress() ? 'hidden' : 'visible'; 
+    actionBtnCntr.style.visibility = inProgress() ? 'visible' : 'hidden';
     announceTxt.textContent = result ? OUTCOMES[result] : 'Place your bets and press DEAL!';
-    dealBtn.style.visibility = currentBet && (playerHand.length < 2) ? "visible" : "hidden";
+    dealBtn.style.visibility = currentBet && (playerHand.length < 2) ? 'visible' : 'hidden';
     dealBtn.disabled = !currentBet;
-    doubleBtn.style.visibility = inProgress() && (playerHand.length <= 2) ? "visible" : "hidden";
+    doubleBtn.style.visibility = inProgress() && (playerHand.length <= 2) ? 'visible' : 'hidden';
     if (result) resetHand();
 }
 
