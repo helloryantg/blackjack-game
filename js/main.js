@@ -94,7 +94,7 @@ function checkWin() {
 }
 
 function checkBlackJack() { 
-    if (playerSum === dealerSum) {
+    if ((playerSum === 21) && (playerSum === dealerSum)) {
         result = 'tie';
     } else if (playerSum === 21) {
         result = 'playerBlackjack';
